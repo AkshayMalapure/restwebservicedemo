@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test class for Employee Controller
+ * 
  * @author akshay
  *
  */
@@ -44,160 +45,136 @@ public class TestEmployeeController {
 	private MockMvc mockMvc;
 
 	@MockBean
-	private EmployeeServiceImpl  employeeServiceImpl;
-	
+	private EmployeeServiceImpl employeeServiceImpl;
+
 	@InjectMocks
 	private EmployeeController controller;
-	
+
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 	}
 
 	@Test
-    /*Naming convention used for test
-     *     First Part	Second Part		  Third Part	
-     * testGetEmployee_WhenInvalidIdSent_ExpectBadRequest
-     * 
-     * 1)First Part indicates what you are testing ex
-     * 2)Second part indicates condition
-     * 3)Last Part indicates expected result
-     * /
-     */
-	 
-	public void testGetEmployee_WhenInvalidIdSent_ExpectBadRequest() throws Exception{
-		mockMvc.perform(get(("/employee-management-api/v1/1.1")).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
-	}
-	
-	@Test
-	public void testGetEmployee_WhenValidIdSent_ExpectSuccessfulResponse() throws Exception{
-	Mockito.when(employeeServiceImpl.getEmployeeById(1)).thenReturn(getMockData());
-		
-		mockMvc.perform(get(("/employee-management-api/v1/1")).contentType(MediaType.APPLICATION_JSON))
-		
-		.andExpect(status().isOk());
-		
-		
-		
-	}
-	
-	@Test
-	public void testGetAllEmployee_WhenValidIdSent_ExpectSuccessfulResponse() throws Exception{
-	Mockito.when(employeeServiceImpl.getAllEmployee()).thenReturn(Arrays.asList(getMockData(),getMockData()));
-		
-		mockMvc.perform(get(("/employee-management-api/v1/employees")).contentType(MediaType.APPLICATION_JSON))
-		
-		.andExpect(status().isOk());
-		
-		
-		
-	}
-	
-	
-	
-	@Test
-	public void testAddtEmployee_WhenValidRecordSent_ExpectSuccessfulResponse() throws Exception{
-		
-	ObjectMapper mapper=new ObjectMapper();
-	String json=mapper.writeValueAsString(getMockData());
-		
-		
-	Mockito.when(employeeServiceImpl.insertEmployee(getMockData())).thenReturn(getMockData());
-		
-		mockMvc.perform(post(("/employee-management-api/v1/employee")).contentType(MediaType.APPLICATION_JSON).content(json))
-		
-		.andExpect(status().isOk());
-	}
-	
-	
-	@Test
-	public void testAddtEmployee_WhenInValidRecordSent_ExpectBadRequest() throws Exception{
-		
-	ObjectMapper mapper=new ObjectMapper();
-	String json=mapper.writeValueAsString(getInvalidTestData());
-		
-		
-	Mockito.when(employeeServiceImpl.insertEmployee(getInvalidTestData())).thenThrow(MethodArgumentNotValidException.class);
-		
-		mockMvc.perform(post(("/employee-management-api/v1/employee")).contentType(MediaType.APPLICATION_JSON).content(json))
-		.andExpect(status().isBadRequest());
-		
-		
-	}
-	
-	@Test
-	public void testDeleteEmployee_WhenvalidIdSent_ExpectSuccessfullResponse() throws Exception{
-		mockMvc.perform(delete(("/employee-management-api/v1/1")).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-		
-		
-		
-	}
-	
-	
-	
-	@Test
-	public void testUpdateEmployee_WhenValidRecordSent_ExpectSuccessfulResponse() throws Exception{
-		
-	ObjectMapper mapper=new ObjectMapper();
-	
-	Employee updateEmp=getMockData();
-	updateEmp.setEmployeeSalary(60000);
-	
-	
-	String json=mapper.writeValueAsString(updateEmp);
-	
-	ResponseEntity response=new ResponseEntity(HttpStatus.OK);
-		
-		
-	Mockito.when(employeeServiceImpl.updateEmployee(1,updateEmp)).thenReturn(response);
-		
-		mockMvc.perform(put(("/employee-management-api/v1/1")).contentType(MediaType.APPLICATION_JSON).content(json))
-		
-		.andExpect(status().isOk());
-		
-		ResponseEntity<?> result=controller.updateEmployeeRecord(1,updateEmp);
-		assertNotNull(result);
-		assertEquals(result.getStatusCode(),HttpStatus.OK); 
-	
-	}
-	
-	@Test
-	public void testUpdateEmployee_WhenInValidRecordSent_ExpectSuccessfulResponse() throws Exception{
-		
-	ObjectMapper mapper=new ObjectMapper();
-	
-	
-	
-	
-	
-	String json=mapper.writeValueAsString(getMockData());
-	
-	ResponseEntity response=new ResponseEntity(HttpStatus.NO_CONTENT);
-		
-		
-	Mockito.when(employeeServiceImpl.updateEmployee(2,getMockData())).thenReturn(response);
-		
-		mockMvc.perform(put(("/employee-management-api/v1/2")).contentType(MediaType.APPLICATION_JSON).content(json))
-		
-		.andExpect(status().isNoContent());
-		
-		ResponseEntity<?> result=controller.updateEmployeeRecord(2,getMockData());
-		assertEquals(result.getStatusCode(),HttpStatus.NO_CONTENT); 
-	
-	}
-	
-	
-	private Employee getMockData()
-	{
-		 return new Employee(1,"Akshay Malapure",23,"Software Developer","akshaymalapure@gmail.com",50000) ;
-	}	  
-		  
-	private Employee getInvalidTestData()
-	{
-		return new Employee(1,"Akshay Malapure",-23,"Software Developer","akshaymalapure@gmail.com",50000);
-	}
-	
-	
-	
+	/*
+	 * Naming convention used for test First Part Second Part Third Part
+	 * testGetEmployee_WhenInvalidIdSent_ExpectBadRequest
+	 * 
+	 * 1)First Part indicates what you are testing ex 2)Second part indicates
+	 * condition 3)Last Part indicates expected result /
+	 */
+
+	public void testGetEmployee_WhenInvalidIdSent_ExpectBadRequest() throws Exception {
+		mockMvc.perform(get(("/employee-management-api/v1/1.1")).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest());
 	}
 
+	@Test
+	public void testGetEmployee_WhenValidIdSent_ExpectSuccessfulResponse() throws Exception {
+		Mockito.when(employeeServiceImpl.getEmployeeById(1)).thenReturn(getMockData());
+
+		mockMvc.perform(get(("/employee-management-api/v1/1")).contentType(MediaType.APPLICATION_JSON))
+
+				.andExpect(status().isOk());
+
+	}
+
+	@Test
+	public void testGetAllEmployee_WhenValidIdSent_ExpectSuccessfulResponse() throws Exception {
+		Mockito.when(employeeServiceImpl.getAllEmployee()).thenReturn(Arrays.asList(getMockData(), getMockData()));
+
+		mockMvc.perform(get(("/employee-management-api/v1/employees")).contentType(MediaType.APPLICATION_JSON))
+
+				.andExpect(status().isOk());
+
+	}
+
+	@Test
+	public void testAddtEmployee_WhenValidRecordSent_ExpectSuccessfulResponse() throws Exception {
+
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(getMockData());
+
+		Mockito.when(employeeServiceImpl.insertEmployee(getMockData())).thenReturn(getMockData());
+
+		mockMvc.perform(
+				post(("/employee-management-api/v1/employee")).contentType(MediaType.APPLICATION_JSON).content(json))
+
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void testAddtEmployee_WhenInValidRecordSent_ExpectBadRequest() throws Exception {
+
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(getInvalidTestData());
+
+		Mockito.when(employeeServiceImpl.insertEmployee(getInvalidTestData()))
+				.thenThrow(MethodArgumentNotValidException.class);
+
+		mockMvc.perform(
+				post(("/employee-management-api/v1/employee")).contentType(MediaType.APPLICATION_JSON).content(json))
+				.andExpect(status().isBadRequest());
+
+	}
+
+	@Test
+	public void testDeleteEmployee_WhenvalidIdSent_ExpectSuccessfullResponse() throws Exception {
+		mockMvc.perform(delete(("/employee-management-api/v1/1")).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+
+	}
+
+	@Test
+	public void testUpdateEmployee_WhenValidRecordSent_ExpectSuccessfulResponse() throws Exception {
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		Employee updateEmp = getMockData();
+		updateEmp.setEmployeeSalary(60000);
+
+		String json = mapper.writeValueAsString(updateEmp);
+
+		ResponseEntity response = new ResponseEntity(HttpStatus.OK);
+
+		Mockito.when(employeeServiceImpl.updateEmployee(1, updateEmp)).thenReturn(response);
+
+		mockMvc.perform(put(("/employee-management-api/v1/1")).contentType(MediaType.APPLICATION_JSON).content(json))
+
+				.andExpect(status().isOk());
+
+		ResponseEntity<?> result = controller.updateEmployeeRecord(1, updateEmp);
+		assertNotNull(result);
+		assertEquals(result.getStatusCode(), HttpStatus.OK);
+
+	}
+
+	@Test
+	public void testUpdateEmployee_WhenInValidRecordSent_ExpectSuccessfulResponse() throws Exception {
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String json = mapper.writeValueAsString(getMockData());
+
+		ResponseEntity response = new ResponseEntity(HttpStatus.NO_CONTENT);
+
+		Mockito.when(employeeServiceImpl.updateEmployee(2, getMockData())).thenReturn(response);
+
+		mockMvc.perform(put(("/employee-management-api/v1/2")).contentType(MediaType.APPLICATION_JSON).content(json))
+
+				.andExpect(status().isNoContent());
+
+		ResponseEntity<?> result = controller.updateEmployeeRecord(2, getMockData());
+		assertEquals(result.getStatusCode(), HttpStatus.NO_CONTENT);
+
+	}
+
+	private Employee getMockData() {
+		return new Employee(1, "Akshay Malapure", 23, "Software Developer", "akshaymalapure@gmail.com", 50000);
+	}
+
+	private Employee getInvalidTestData() {
+		return new Employee(1, "Akshay Malapure", -23, "Software Developer", "akshaymalapure@gmail.com", 50000);
+	}
+
+}
