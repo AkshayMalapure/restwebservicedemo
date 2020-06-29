@@ -14,6 +14,7 @@ Testing:-Junit-Mockito
 # Things covered in this application
 1)Rest Api Crud Operations
 
+
 2)Global Exception Handling mechanism in Rest Api
 
 3)Creating custom validator for validating fields
@@ -34,12 +35,11 @@ Testing:-Junit-Mockito
 
 11)Spring boot actuator for checking status of application
 
-
-
 #This application is also deployed to Pivotal Cloud Foundry
 
 
 #Steps to run this application locally
+
 
 1)First run RestDemoApplication.java as spring boot application and check console  for tomcat started at port 8085.
 
@@ -48,9 +48,4 @@ Testing:-Junit-Mockito
 3)In another tab enter http://localhost:8085/h2-console in order to view in memory h2 database.Login to db using username,pwd and db url given in application.properties file.
 
 4)Perform operations from through endpoints given in swagger ui.
-
-5)Verify results through Swagger and also check h2 database for same.
-
-
-
 
