@@ -57,7 +57,8 @@ public class TestEmployeeController {
 
 	@Test
 	/*
-	 * Naming convention used for test First Part Second Part Third Part
+	 * Naming convention used for test 
+		First Part           Second Part           Third Part
 	 * testGetEmployee_WhenInvalidIdSent_ExpectBadRequest
 	 * 
 	 * 1)First Part indicates what you are testing ex 2)Second part indicates
@@ -80,7 +81,7 @@ public class TestEmployeeController {
 	}
 
 	@Test
-	public void testGetAllEmployee_WhenValidIdSent_ExpectSuccessfulResponse() throws Exception {
+	public void testGetAllEmployee_WhenDataPresent_ExpectSuccessfulResponse() throws Exception {
 		Mockito.when(employeeServiceImpl.getAllEmployee()).thenReturn(Arrays.asList(getMockData(), getMockData()));
 
 		mockMvc.perform(get(("/employee-management-api/v1/employees")).contentType(MediaType.APPLICATION_JSON))
