@@ -64,13 +64,7 @@ public class TestEmployeeService {
 	public void testGetEmployee()
 	{
 		Mockito.when(employeeRepository.findById(1)).thenReturn(Optional.of(setTestEntityData()));
-		
-		
 		Mockito.when(conversionService.convert(setTestEntityData(), Employee.class)).thenReturn(setTestModelData());
-		
-		
-		
-		
 		Employee emp = employeeService.getEmployeeById(1);
 		assertEquals(emp.getEmployeeAge(),setTestEntityData().getEmployeeAge());
 	}	
@@ -81,11 +75,7 @@ public class TestEmployeeService {
 	{
 		Mockito.when(employeeRepository.findById(2)).thenReturn(Optional.empty());
 		Mockito.when(!employeeRepository.findById(2).isPresent()).thenThrow((new NoSuchElementException()));
-		
 		Mockito.when(employeeRepository.findById(2)).thenThrow(new NoSuchElementException());
-		
-		
-	
 		Employee emp = employeeService.getEmployeeById(2);
 		
 		
@@ -110,17 +100,12 @@ public class TestEmployeeService {
 		// Using Arrays.asList saves memory
 
 		Mockito.when(employeeRepository.findAll()).thenThrow(new NoSuchElementException("No data found"));
-		
 		List<Employee> modelist = employeeService.getAllEmployee();
-		 
-		 
-
 	}
 
 	@Test
 	public void testDeleteEmployeeById() {
 		Mockito.when(employeeRepository.findById(1)).thenReturn(Optional.of(setTestEntityData()));
-
 		ResponseEntity<?> result = employeeService.deleteEmployee(1);
 		assertNotNull(result);
 
@@ -129,8 +114,6 @@ public class TestEmployeeService {
 	@Test(expected = NoSuchElementException.class)
 	public void testDeleteEmployeeByIdInvalid() {
 		Mockito.when(employeeRepository.findById(2)).thenThrow(new NoSuchElementException("No Data Found"));
-		
-
 		ResponseEntity<?> result = employeeService.deleteEmployee(2);
 		assertTrue(result.getStatusCode().equals(HttpStatus.NO_CONTENT));
 
@@ -140,7 +123,6 @@ public class TestEmployeeService {
 	@Test
 	public void testUpdateEmployee() throws MethodArgumentNotValidException {
 		Mockito.when(employeeRepository.findById(1)).thenReturn(Optional.of(setTestEntityData()));
-
 		EmployeeEntity entity = employeeRepository.findById(1).get();
 
 		entity.setEmployeeSalary(70000);
